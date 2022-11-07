@@ -1,0 +1,30 @@
+# Chess assignment report
+
+(Replace the square-bracketed text with your own text. *Leave everything else unchanged.* Note, the reports are parsed to check word limits, etc. Changing the format may cause the parsing to fail.)
+
+## Feature Extraction (Max 200 Words)
+The beginning of feature extraction part is process_training_data which takes train data and label then stored in the dictionary, in this part, I add a new element to the dictionary it call ten_eigenvectors. And I make the main part of pca here, the process is first take the fvectors_train from input, zero-centered the data and make it be standardization. Next, calculate the covariance by row with the processed data. Then, calculate the eigenvalues and eigenvectors of the covariance. Because I need to choose the 10 largest features to use, so I need to use eigenvalues to arrangement the eigenvectors. I use np.argsort to sort eigenvalues with a ascending form, and move eigenvectors to the correspond position to argsorted eigenvalues, also need to flip over the eigenvectors, because eigenvalue is sorted with ascending form.
+Finally, choose first 10 columns which means the best 10 features, and store it into ten_eigenvectors in the dictionary. The last part of feature extraction is reduce dimensions, the method I choose is pca and I did most part of pca in process_training_data, so in this part I just need to dot multiple the zero-centered, standardization input data and ten_eigenvectors from the model.
+
+## Classifier (Max 200 Words)
+First thing to do knn, I need to first separate all labels into two parts one in for dot ‘.’ And else is all the letter, such as k, q, r… the reason to use divergence is to arrange all values from largest divergence to smallest, because higher divergence is good for nearest neighbors to calculate the distance. After sorting the divergence, I choose k as 3 features that means I use the top three divergence values to knn. Because I use argsort to sort the divergence so it will give the top three columns’ position, so it can extract the correspond position in train and test. Last step is calculating the distance between test point and 3 nearest points. To do that, first I need to dot multiply selected train and test, then calculate the square root of the sum of test and train’s square, calculate the distance and use argmax to find biggest values position in each row. At the last, rearrange the train_labels with the argmax values. But because when I use the knn from lab is higher than divergence, so I choose do not use divergence but I leave the code in classify function.
+
+## Full Board Classification (Max 200 Words)
+
+For the full board function I tried to use get ten_eigenvectors and dot multiply the fvectors_test to get (1600, 2500) matrix then reshape the matrix to (25, 160000) matrix, which mean I store an entire board with 160000-d in an array, then reshape the matrix’s each row again to (64, 2500) and then extract feature’s form the board and transforms to labels. 
+## Performance
+
+My percentage correctness scores (to 1 decimal place) for the development data are as follows.
+
+Clean data:
+
+- Square mode: 94.5%
+- Board mode: 94.5%
+
+Noisy data:
+
+- Square mode: 60.0%
+- Board mode: 60.0%
+
+## Other information (Optional, Max 100 words)
+Besides the divergence, I tried to make not only for ‘.’and letters, but also to separate more detailed, make all letters into separate matrices, then use nested loop to calculate each letter with other things to have divergences. After that, descending matrix, and choose first 3 columns because I	choose k as 3 and the columns take largest 3 values per each row. Then, put k-feature matrix to a loop and each time the loop will take one row to calculate knn and store score and labels, then return the label that correspond to largest score. (codes in line 65~292)
