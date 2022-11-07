@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
+  <include file="$(find robot_project)/src/launch/publisher_cli.launch" />
+  <include file="$(find robot_project)/src/launch/task2.launch" />
+  <node pkg="robot_project" type="search.py" name="search" output="screen" />
+  <node pkg="robot_project" type="save_map.py" name="save_map" output="screen" />
+</launch>

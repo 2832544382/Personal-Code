@@ -1,0 +1,7 @@
+<launch>
+  <arg name="target_colour" default="Blue" />
+
+  <node pkg="robot_project" type="search.py"
+    name="publisher_cli_node" output="screen"
+    args="-colour $(arg target_colour)" />
+</launch>
