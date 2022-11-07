@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="team49" type="avoidance_server.py" name="avoidance_server"  output="screen" />
-  <node pkg="team49" type="avoidance_client.py" name="avoidance_client"  output="screen" />
-</launch>
